@@ -1,13 +1,12 @@
 """
 Full training and prediction pipeline.
 
-Extracted verbatim from `ML_Project_notebook.ipynb` (cells 36, 40, 43, 46).
-The pipeline runs as top-level
-script code, in the same order and with the same variables as in the notebook,
-so the behaviour is identical. Only the import header and the non-interactive
-matplotlib backend below were added.
+Written as top-level script code so that the run reads top to bottom in the order the steps
+actually happen: load the data, pre-process it, select features, split and scale, compare
+the candidate models, cross-validate the winner, then retrain it on everything and predict
+on the test set.
 
-Run from the repository root:
+Run:
 
     python main.py
 """
@@ -55,7 +54,6 @@ from src.model import SimpleNeuralNetwork
 
 # ============================================================================
 # DATA LOADING, PRE-PROCESSING, FEATURE SELECTION, SPLIT AND SCALING
-# notebook cell 36
 # ============================================================================
 
 # Fixing seed for replicability
@@ -131,7 +129,6 @@ X_test_scaled = scaler_X.transform(X_test)
 
 # ============================================================================
 # MODEL ENGINEERING: TRAIN AND COMPARE THE CANDIDATE MODELS
-# notebook cell 40
 # ============================================================================
 
  
@@ -211,7 +208,6 @@ print(f"****************************************************************\n\n")
 
 # ============================================================================
 # CROSS-VALIDATION OF THE BEST MODEL
-# notebook cell 43
 # ============================================================================
 
 # Set up the folds for cross-validation
@@ -281,7 +277,6 @@ print(f"****************************************************************\n\n")
 
 # ============================================================================
 # RETRAIN THE BEST MODEL AND PREDICT ON THE TEST SET
-# notebook cell 46
 # ============================================================================
 
 # Retrain the best model on the entire training set

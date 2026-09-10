@@ -1,10 +1,8 @@
 """
 Paths and global settings.
 
-This is notebook cell 8. The only change is how the base directory is resolved: the
-notebook uses `os.getcwd()`, which requires the working directory to be the project
-root. Here the paths are anchored to this file instead, so `main.py` runs correctly from
-any directory. This is the same pattern already used in the original `ML Project - FINAL.py`.
+Paths are anchored to this file rather than the working directory, so the pipeline runs
+correctly no matter where it is invoked from.
 """
 
 import os

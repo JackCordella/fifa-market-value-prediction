@@ -1,8 +1,8 @@
 """
 Dataset loading and pre-processing.
 
-Extracted verbatim from `ML_Project_notebook.ipynb` (cells 12, 14, 16, 18, 20).
-The function bodies are unchanged; only the import header below was added.
+`data_pre_processing` is the entry point: it drops uninformative columns, removes rows with
+no target, encodes the categorical features, and reports any residual NaNs.
 """
 
 import pandas as pd

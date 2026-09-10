@@ -6,9 +6,6 @@ __pycache__/
 venv/
 env/
 
-# Jupyter
-.ipynb_checkpoints/
-
 # Generated artefacts
 data/predictions.csv
 

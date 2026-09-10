@@ -1,8 +1,9 @@
 """
 The PyTorch regression model.
 
-Extracted verbatim from `ML_Project_notebook.ipynb` (cell 31).
-The function bodies are unchanged; only the import header below was added.
+A two-hidden-layer MLP with ReLU activations, wrapped so that it exposes the same
+`fit` / `predict` interface as the scikit-learn estimators it is compared against.
+Training uses Adam, MSE loss and early stopping on validation loss.
 """
 
 import matplotlib.pyplot as plt

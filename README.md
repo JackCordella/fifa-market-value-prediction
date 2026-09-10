@@ -70,36 +70,22 @@ src/
   data.py                    Loading and pre-processing
   features.py                Correlation analysis and feature selection
   model.py                   SimpleNeuralNetwork (PyTorch nn.Module with fit/predict)
-ML_Project_notebook.ipynb    The original notebook, unchanged
 data/                        train.csv, test.csv, submission.csv, column_descriptions.csv
 img/                         Correlation heatmaps and the training curve
 ```
 
-### Relationship between the notebook and the modules
+`src/` holds the reusable pieces — loading, encoding, correlation analysis, the model —
+while `main.py` is the executable pipeline that wires them together. It is deliberately
+written as top-level script code rather than wrapped in functions, so the run reads top to
+bottom in the order the steps actually happen.
 
-`ML_Project_notebook.ipynb` is the original submission, kept byte-for-byte as handed in.
-The Python modules are that notebook **split into a runnable project, with the code copied
-verbatim**:
+Two details worth knowing:
 
-| Module | Notebook cells |
-|---|---|
-| `config.py` | 8 |
-| `src/data.py` | 12, 14, 16, 18, 20 |
-| `src/features.py` | 23, 26 |
-| `src/model.py` | 31 |
-| `main.py` | 36, 40, 43, 46 |
-
-Function bodies were not rewritten, and `main.py` remains top-level script code in the same
-order as the notebook, so the two are equivalent by construction: 653 lines copied across
-the four files, each cell checked line for line against the notebook it came from.
-
-The only additions are:
-
-- import headers on each module;
-- `matplotlib.use("Agg")` in `main.py`, because `heatmap_plot` calls `plt.show()`, which
-  blocks when run as a script rather than in a notebook;
-- `config.py` anchors its paths to `__file__` instead of `os.getcwd()`, so `main.py` works
-  from any directory. This is the same pattern used in the original `ML Project - FINAL.py`.
+- `main.py` sets `matplotlib.use("Agg")` before importing pyplot. `heatmap_plot` calls
+  `plt.show()`, which blocks a script until the window is closed; the non-interactive
+  backend makes it a no-op so the pipeline runs unattended.
+- `config.py` anchors its paths to `__file__` rather than the working directory, so
+  `python main.py` works from anywhere.
 
 ---
 
@@ -116,10 +102,6 @@ The run trains all eight models, cross-validates the winner and writes predictio
 `data/submission.csv`. Expect roughly 20–40 minutes on a laptop CPU: the neural network
 trains for up to 1,000 epochs (early stopping with patience 150 usually fires around epoch
 150), and it is retrained five more times during cross-validation.
-
-The notebook is at the repository root rather than in a `notebooks/` folder on purpose: cell
-8 resolves data as `./data`, relative to the working directory, so it needs to sit next to
-`data/` to run unmodified.
 
 ---
 
@@ -149,8 +131,8 @@ revised version.
   explicitly exempted from the high-correlation drop list — and it explains much of the
   accuracy. A version excluding it would be a harder and arguably more interesting problem.
 - **The test features are scaled with a scaler fitted on the 80% training split.**
-  `X_test_scaled` is computed once, early in `main.py` (notebook cell 36). The final model
-  is then retrained on 100% of the data with a freshly fitted scaler (cell 46), but the test
+  `X_test_scaled` is computed once, in the data-preparation section of `main.py`. The final
+  model is then retrained on 100% of the data with a freshly fitted scaler, but the test
   matrix is not re-scaled to match. Since `MinMaxScaler` bounds barely move between 80% and
   100% of a 15k-row dataset the practical effect is small, but the two are not strictly
   consistent.
@@ -174,8 +156,8 @@ hardware even with `SEED = 1` and `cudnn.deterministic = True`, so exact agreeme
 expected. The RMSE figures in this README come from the verification run for the same
 reason.
 
-That the numbers move slightly while the structure holds is the expected outcome: the
-guarantee that the refactor changed nothing is textual rather than statistical.
+That the numbers move slightly while the structure holds is the expected outcome for a
+model trained by gradient descent.
 
 ---
 

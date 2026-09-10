@@ -1,8 +1,9 @@
 """
 Correlation analysis and feature selection.
 
-Extracted verbatim from `ML_Project_notebook.ipynb` (cells 23, 26).
-The function bodies are unchanged; only the import header below was added.
+`features_selection` is the entry point: it drops features that correlate strongly with each
+other (keeping the redundant one closest to the target), then those that correlate weakly
+with the target, plotting the correlation heatmap before and after.
 """
 
 import os
