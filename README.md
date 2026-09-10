@@ -43,13 +43,37 @@ to the coefficients and shrinks them to nearly zero.
 |---|---|
 | 1. Load the CSVs | `load_data` — `src/data.py` |
 | 2. Drop uninformative columns (names, ids, dates, tags) | `features_pre_selection` — `src/data.py` |
-| 3. Encode categoricals: target-encode `player_positions`, binarise national-team and loan status, one-hot `club_position`, turn contract expiry into a duration | `features_embedding` — `src/data.py` |
+| 3. Encode the categorical columns (see below) | `features_embedding` — `src/data.py` |
 | 4. Check for residual NaNs | `data_evaluation` — `src/data.py` |
 | 5. Feature selection in two passes: drop features correlating > 0.85 with each other, then those correlating < 0.50 with the target | `features_selection` — `src/features.py` |
 | 6. Scale, train, compare, cross-validate, predict | `main.py` |
 
 Step 5 reduces 58 columns to **five predictors**: `overall`, `potential`,
 `international_reputation`, `wage_eur` and `release_clause_eur`.
+
+### Encoding the categorical columns
+
+Five columns are non-numerical but not useless: they carry information about a player that
+is directly or indirectly linked to market value. Each one is reduced to the part of the
+signal that plausibly matters, rather than discarded or one-hot expanded wholesale.
+
+| Column | What it says | How it is used |
+|---|---|---|
+| `player_positions` | The positions a player can play | Target-encoded: each distinct position string is replaced by the mean `release_clause_eur` of the players sharing it — the idea being to carry the market weight of a position, not just its label |
+| `nation_position` | Position in the national team | Binarised to 0/1. The real signal is not *which* position but whether the player is good enough to be called up at all |
+| `club_loaned_from` | The club a player is on loan from | Binarised to 0/1. What matters is being on loan, not the specific origin club |
+| `club_position` | Position within the club | Collapsed to three one-hot categories — `PLAY`, `SUB`, `RES` — because the useful distinction is starter versus substitute versus reserve, not the exact slot |
+| `club_contract_valid_until` | Contract expiry year | Converted to a duration by subtracting the earliest year in the column. Players approaching the end of a contract tend to be valued lower than those who have just signed |
+
+Any remaining NaNs are then filled with 0.
+
+**Two caveats in this step.** The target encoding of `player_positions` is computed and then
+immediately dropped, so it never reaches the model — the column is mapped onto its encoded
+values and removed on the following line. And the encoding treats each position string as
+one atomic category, so `"CDM, CM"` and `"CM, CDM"` are separate categories despite
+describing the same player profile, and rare combinations get a mean drawn from very few
+players. Both are left as they are; the point of this repository is the project as it was
+built, not a corrected version.
 
 Correlation structure before and after selection:
 
