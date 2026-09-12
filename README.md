@@ -1,5 +1,7 @@
 # Predicting Football Player Market Value
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22728718.svg)](https://doi.org/10.5281/zenodo.22728718)
+
 Regression on football (soccer) player attributes to predict market value in euros
 (`value_eur`), comparing eight models — from linear regression to a PyTorch neural network —
 selected on validation RMSE and confirmed with 5-fold cross-validation.
@@ -187,6 +189,21 @@ That the numbers move slightly while the structure holds is the expected outcome
 model trained by gradient descent.
 
 ---
+
+## Citation
+
+Archived on Zenodo. The DOI below always resolves to the latest version.
+
+```bibtex
+@software{cordella_22728718,
+  author    = {Cordella, G.},
+  title     = {Predicting Football Player Market Value: a comparison of eight regression models},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22728718},
+  url       = {https://doi.org/10.5281/zenodo.22728718}
+}
+```
 
 ## License
 
