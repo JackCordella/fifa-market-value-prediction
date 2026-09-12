@@ -4,6 +4,8 @@ Regression on football (soccer) player attributes to predict market value in eur
 (`value_eur`), comparing eight models — from linear regression to a PyTorch neural network —
 selected on validation RMSE and confirmed with 5-fold cross-validation.
 
+Full write-up: [`report/Report_Football_Market_Value_Cordella.pdf`](report/Report_Football_Market_Value_Cordella.pdf).
+
 ---
 
 ## Results
@@ -96,6 +98,7 @@ src/
   model.py                   SimpleNeuralNetwork (PyTorch nn.Module with fit/predict)
 data/                        train.csv, test.csv, submission.csv, column_descriptions.csv
 img/                         Correlation heatmaps and the training curve
+report/                      Full write-up (PDF)
 ```
 
 `src/` holds the reusable pieces — loading, encoding, correlation analysis, the model —

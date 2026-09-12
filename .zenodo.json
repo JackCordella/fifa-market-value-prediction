@@ -1,0 +1,9 @@
+{
+  "title": "Predicting Football Player Market Value: a comparison of eight regression models",
+  "upload_type": "software",
+  "description": "<p>Regression on football player attributes to predict market value in euros. Feature selection reduces 58 columns to five predictors by first dropping mutually correlated features and then those weakly correlated with the target.</p><p>Eight models are compared on validation RMSE, from linear regression through regularised variants and tree ensembles to a two-layer PyTorch network written from scratch. The neural network wins at 558k EUR against 680k for the best gradient-boosting configuration, and five-fold cross-validation puts it at 421k.</p><p>The repository documents two caveats of the analysis openly: <code>release_clause_eur</code> correlates 0.976 with the target, and the test features retain the scaler fitted on the 80% split after the final model is refitted on all of it. Includes the accompanying report.</p>",
+  "creators": [{"name": "Cordella, Giacomo", "affiliation": "Bocconi University"}],
+  "license": "mit",
+  "access_right": "open",
+  "keywords": ["regression", "feature selection", "neural network", "PyTorch", "scikit-learn", "gradient boosting", "sports analytics"]
+}
